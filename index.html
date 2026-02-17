@@ -1,0 +1,1186 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Farmais Adamantina – Farmácia & Manipulação</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #1a3f8f;
+    --green-light: #2a56c6;
+    --green-pale: #e8eef9;
+    --cream: #f6f8fc;
+    --dark: #0d1a33;
+    --gray: #5c6b85;
+    --white: #ffffff;
+    --gold: #d42b2b;
+    --red: #d42b2b;
+    --blue: #1a3f8f;
+    --blue-light: #2a56c6;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--dark);
+    overflow-x: hidden;
+  }
+
+  /* ─── HEADER ─── */
+  header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.2rem 5%;
+    background: var(--blue);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    transition: box-shadow .3s;
+  }
+  header.scrolled { box-shadow: 0 4px 24px rgba(26,63,143,0.35); }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: .7rem;
+    text-decoration: none;
+  }
+
+  nav a {
+    color: rgba(255,255,255,0.88);
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 800;
+    margin-left: 2rem;
+    letter-spacing: .02em;
+    transition: color .2s;
+  }
+  nav a:hover { color: white; }
+
+  .nav-cta {
+    background: var(--red) !important;
+    color: white !important;
+    padding: .6rem 1.4rem;
+    border-radius: 100px;
+    transition: background .2s, transform .2s !important;
+  }
+  .nav-cta:hover { background: #b82222 !important; transform: translateY(-1px); }
+
+  /* ─── HAMBURGER ─── */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 6px;
+    border: none;
+    background: transparent;
+    z-index: 101;
+  }
+  .hamburger span {
+    display: block;
+    width: 26px;
+    height: 2.5px;
+    background: white;
+    border-radius: 4px;
+    transition: transform .3s, opacity .3s;
+  }
+  .hamburger.open span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+
+  /* ─── MOBILE MENU OVERLAY ─── */
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: var(--dark);
+    z-index: 99;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .3s;
+  }
+  .mobile-menu.open {
+    opacity: 1;
+    pointer-events: all;
+  }
+  .mobile-menu a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: .02em;
+    transition: color .2s;
+  }
+  .mobile-menu a:hover { color: #ff6b6b; }
+  .mobile-menu .mob-cta {
+    background: var(--red);
+    padding: .9rem 2.2rem;
+    border-radius: 100px;
+    font-size: 1.1rem;
+  }
+
+  /* ─── HERO ─── */
+  #hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 0 5%;
+    padding-top: 90px;
+    gap: 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg-circle {
+    position: absolute;
+    width: 700px; height: 700px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #dde6f8 0%, transparent 70%);
+    right: -10%;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 0;
+  }
+
+  .hero-content { position: relative; z-index: 1; }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    background: var(--green-pale);
+    color: var(--green);
+    font-size: .8rem;
+    font-weight: 500;
+    padding: .4rem 1rem;
+    border-radius: 100px;
+    margin-bottom: 1.5rem;
+    border: 1px solid rgba(26,63,143,.2);
+    animation: fadeUp .6s ease both;
+  }
+  .badge-dot {
+    width: 7px; height: 7px;
+    background: var(--red);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%,100% { opacity: 1; transform: scale(1); }
+    50% { opacity: .6; transform: scale(1.3); }
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.8rem, 5vw, 4.5rem);
+    font-weight: 900;
+    line-height: 1.08;
+    letter-spacing: -.03em;
+    margin-bottom: 1.2rem;
+    animation: fadeUp .6s .1s ease both;
+  }
+  h1 em {
+    font-style: normal;
+    color: var(--green);
+    display: block;
+  }
+
+  .hero-desc {
+    font-size: 1.05rem;
+    color: var(--gray);
+    line-height: 1.7;
+    max-width: 440px;
+    margin-bottom: 2.2rem;
+    animation: fadeUp .6s .2s ease both;
+  }
+
+  .hero-buttons {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    animation: fadeUp .6s .3s ease both;
+  }
+
+  .btn-whatsapp {
+    display: inline-flex;
+    align-items: center;
+    gap: .7rem;
+    background: var(--red);
+    color: white;
+    text-decoration: none;
+    padding: 1rem 2rem;
+    border-radius: 100px;
+    font-weight: 500;
+    font-size: 1rem;
+    transition: background .2s, transform .2s, box-shadow .2s;
+    box-shadow: 0 8px 24px rgba(212,43,43,.3);
+  }
+  .btn-whatsapp:hover {
+    background: #b82222;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(212,43,43,.45);
+  }
+  .btn-whatsapp svg { width: 22px; height: 22px; fill: white; }
+
+  .btn-outline {
+    display: inline-flex;
+    align-items: center;
+    gap: .6rem;
+    border: 1.5px solid rgba(26,63,143,.3);
+    color: var(--green);
+    text-decoration: none;
+    padding: 1rem 1.8rem;
+    border-radius: 100px;
+    font-weight: 500;
+    transition: border-color .2s, background .2s;
+  }
+  .btn-outline:hover { background: var(--green-pale); border-color: var(--green); }
+
+  .hero-visual {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    animation: fadeUp .6s .2s ease both;
+  }
+
+  .hero-card {
+    background: white;
+    border-radius: 20px;
+    padding: 1.4rem 1.6rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,.06);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: transform .3s;
+  }
+  .hero-card:hover { transform: translateY(-3px); }
+  .hero-card:nth-child(2) { margin-left: 3rem; }
+  .hero-card:nth-child(3) { margin-left: 1.5rem; }
+
+  .card-icon {
+    width: 50px; height: 50px;
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem;
+    flex-shrink: 0;
+  }
+  .card-icon.green { background: var(--green-pale); }
+  .card-icon.gold { background: #fde8e8; }
+  .card-icon.blue { background: #e8eef9; }
+
+  .card-info { flex: 1; }
+  .card-title { font-weight: 600; font-size: .95rem; margin-bottom: .2rem; }
+  .card-desc { font-size: .82rem; color: var(--gray); }
+
+  /* ─── HOURS BANNER ─── */
+  .hours-banner {
+    background: var(--blue);
+    color: white;
+    text-align: center;
+    padding: 1.1rem 5%;
+    font-size: .95rem;
+    font-weight: 500;
+    letter-spacing: .03em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+  .hours-banner strong { font-weight: 700; }
+  .hours-sep { opacity: .4; }
+
+  /* ─── SECTION COMMONS ─── */
+  section { padding: 6rem 5%; }
+
+  .section-label {
+    display: inline-block;
+    font-size: .78rem;
+    font-weight: 600;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: .8rem;
+  }
+
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -.02em;
+    margin-bottom: 1rem;
+  }
+
+  .section-desc {
+    color: var(--gray);
+    font-size: 1.02rem;
+    line-height: 1.7;
+    max-width: 540px;
+  }
+
+  /* ══════════════════════════════════════════
+     ─── SERVICES (REDESIGNED) ───
+  ══════════════════════════════════════════ */
+  #servicos {
+    background: #0d1a33;
+    color: white;
+    border-radius: 40px;
+    margin: 2% 2%;
+    padding: 5rem 5%;
+  }
+  #servicos h2 { color: white; }
+  #servicos .section-label { color: #ff6b6b; }
+  #servicos .section-desc { color: rgba(255,255,255,.6); max-width: 460px; }
+
+  .services-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: end;
+    gap: 2rem;
+    margin-bottom: 3.5rem;
+  }
+  .services-header h2 { font-size: clamp(2rem, 3vw, 2.8rem); margin-bottom: .4rem; }
+
+  /* 3-column grid with feature card spanning full width at top */
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.2rem;
+  }
+
+  /* First card is a featured wide card */
+  .service-card-featured {
+    grid-column: span 3;
+    background: rgba(212,43,43,.12);
+    border: 1px solid rgba(212,43,43,.25);
+    border-radius: 20px;
+    padding: 2rem 2.4rem;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 2rem;
+    transition: background .3s, transform .3s;
+  }
+  .service-card-featured:hover {
+    background: rgba(212,43,43,.18);
+    transform: translateY(-3px);
+  }
+  .service-card-featured .feat-icon {
+    font-size: 2.8rem;
+    line-height: 1;
+  }
+  .service-card-featured .feat-body {}
+  .service-card-featured .feat-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: .4rem;
+  }
+  .service-card-featured .feat-text {
+    font-size: .9rem;
+    color: rgba(255,255,255,.6);
+    line-height: 1.6;
+    max-width: 520px;
+  }
+  .service-card-featured .feat-badge {
+    background: var(--red);
+    color: white;
+    font-size: .78rem;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    padding: .5rem 1.1rem;
+    border-radius: 100px;
+    white-space: nowrap;
+  }
+
+  /* Regular cards */
+  .service-card {
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 20px;
+    padding: 1.8rem 1.6rem;
+    transition: background .3s, transform .3s, border-color .3s;
+    cursor: default;
+    display: flex;
+    flex-direction: column;
+    gap: .8rem;
+  }
+  .service-card:hover {
+    background: rgba(255,255,255,.09);
+    border-color: rgba(255,255,255,.16);
+    transform: translateY(-4px);
+  }
+
+  .service-icon-wrap {
+    width: 48px; height: 48px;
+    border-radius: 14px;
+    background: rgba(255,255,255,.08);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem;
+  }
+
+  .service-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: white;
+    line-height: 1.3;
+  }
+  .service-text {
+    font-size: .87rem;
+    color: rgba(255,255,255,.5);
+    line-height: 1.65;
+    flex: 1;
+  }
+  .service-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    font-size: .74rem;
+    font-weight: 600;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.3);
+    padding-top: .4rem;
+    border-top: 1px solid rgba(255,255,255,.07);
+  }
+  .service-tag::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: #ff6b6b;
+    flex-shrink: 0;
+  }
+
+  /* ─── TESTS ─── */
+  #testes { background: var(--green-pale); }
+
+  .tests-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 2.5rem;
+  }
+
+  .test-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: .6rem;
+    background: white;
+    border: 1.5px solid rgba(26,63,143,.15);
+    padding: .7rem 1.3rem;
+    border-radius: 100px;
+    font-size: .9rem;
+    font-weight: 500;
+    color: var(--dark);
+    transition: border-color .2s, box-shadow .2s;
+  }
+  .test-pill:hover {
+    border-color: var(--green);
+    box-shadow: 0 4px 12px rgba(26,63,143,.12);
+  }
+  .test-pill span { font-size: 1.1rem; }
+
+  /* ─── REVIEWS ─── */
+  #depoimentos { background: white; }
+
+  .reviews-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+  .reviews-header .section-desc { margin: 0 auto; }
+
+  .reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .review-card {
+    background: var(--cream);
+    border-radius: 20px;
+    padding: 1.8rem;
+    transition: transform .3s;
+  }
+  .review-card:hover { transform: translateY(-3px); }
+
+  .stars { color: var(--gold); font-size: 1rem; margin-bottom: 1rem; letter-spacing: 2px; }
+
+  .review-text {
+    font-size: .95rem;
+    line-height: 1.65;
+    color: var(--dark);
+    margin-bottom: 1.2rem;
+  }
+
+  .reviewer {
+    display: flex;
+    align-items: center;
+    gap: .7rem;
+  }
+  .reviewer-avatar {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: var(--green);
+    display: flex; align-items: center; justify-content: center;
+    color: white;
+    font-weight: 700;
+    font-size: .85rem;
+    flex-shrink: 0;
+  }
+  .reviewer-name { font-weight: 600; font-size: .88rem; }
+  .reviewer-date { font-size: .78rem; color: var(--gray); }
+
+  /* ─── LOCATION ─── */
+  #localizacao {
+    background: var(--cream);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .location-detail {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .location-detail-icon {
+    width: 44px; height: 44px;
+    background: var(--green-pale);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+  }
+  .location-detail-text strong { display: block; font-weight: 600; margin-bottom: .2rem; }
+  .location-detail-text span { font-size: .9rem; color: var(--gray); line-height: 1.5; }
+
+  .map-embed {
+    border-radius: 24px;
+    overflow: hidden;
+    height: 380px;
+    box-shadow: 0 20px 60px rgba(0,0,0,.1);
+  }
+  .map-embed iframe { width: 100%; height: 100%; border: 0; }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--dark);
+    color: rgba(255,255,255,.5);
+    padding: 3rem 5%;
+  }
+
+  .footer-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+
+  .footer-social {
+    display: flex;
+    gap: 1rem;
+  }
+  .footer-social a {
+    width: 38px; height: 38px;
+    border-radius: 10px;
+    background: rgba(255,255,255,.08);
+    display: flex; align-items: center; justify-content: center;
+    color: white;
+    text-decoration: none;
+    font-size: 1.1rem;
+    transition: background .2s;
+  }
+  .footer-social a:hover { background: rgba(255,255,255,.15); }
+
+  .footer-legal {
+    border-top: 1px solid rgba(255,255,255,.08);
+    padding-top: 1.5rem;
+    font-size: .77rem;
+    line-height: 1.7;
+  }
+  .footer-bottom {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: .5rem;
+    font-size: .78rem;
+    color: rgba(255,255,255,.3);
+  }
+
+  /* ─── FLOATING WPP ─── */
+  .float-wpp {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 999;
+    background: var(--red);
+    width: 60px; height: 60px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 8px 28px rgba(212,43,43,.45);
+    text-decoration: none;
+    transition: transform .2s, box-shadow .2s;
+    animation: floatIn .5s .8s both;
+  }
+  .float-wpp:hover {
+    transform: scale(1.1);
+    box-shadow: 0 12px 36px rgba(212,43,43,.55);
+  }
+  .float-wpp svg { width: 30px; height: 30px; fill: white; }
+
+  .float-wpp-tooltip {
+    position: absolute;
+    right: 72px;
+    background: var(--dark);
+    color: white;
+    font-size: .82rem;
+    font-weight: 500;
+    padding: .45rem .9rem;
+    border-radius: 100px;
+    white-space: nowrap;
+    opacity: 0;
+    transform: translateX(8px);
+    transition: opacity .2s, transform .2s;
+    pointer-events: none;
+  }
+  .float-wpp:hover .float-wpp-tooltip {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes floatIn {
+    from { opacity: 0; transform: scale(.5); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity .7s ease, transform .7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ══════════════════════════════════════════
+     ─── MOBILE ───
+  ══════════════════════════════════════════ */
+  @media (max-width: 768px) {
+
+    /* --- Header --- */
+    header { padding: 1rem 4%; }
+    nav { display: none; }
+    .hamburger { display: flex; }
+    .mobile-menu { display: flex; }
+
+    /* --- Hero --- */
+    #hero {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      text-align: center;
+      padding: 100px 5% 3rem;
+      min-height: auto;
+    }
+    .hero-bg-circle { opacity: .3; right: -30%; }
+    .hero-badge { margin-left: auto; margin-right: auto; }
+    .hero-desc { max-width: 100%; margin-left: auto; margin-right: auto; }
+    .hero-buttons {
+      justify-content: center;
+      flex-direction: column;
+      align-items: center;
+    }
+    .hero-buttons a { width: 100%; max-width: 320px; justify-content: center; }
+    .hero-visual { gap: .85rem; width: 100%; }
+    .hero-card:nth-child(2),
+    .hero-card:nth-child(3) { margin-left: 0; }
+    .hero-card { text-align: left; }
+
+    /* --- Hours Banner --- */
+    .hours-banner { gap: .6rem 1.2rem; font-size: .82rem; padding: .9rem 4%; }
+    .hours-sep { display: none; }
+
+    /* --- Seções gerais --- */
+    section { padding: 4rem 5%; }
+
+    /* --- Services --- */
+    #servicos {
+      margin: 1.5rem 0;
+      border-radius: 24px;
+      padding: 3rem 5%;
+    }
+    .services-header {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .services-grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+    .service-card-featured {
+      grid-column: span 1;
+      grid-template-columns: 1fr;
+      grid-template-rows: auto;
+      gap: 1rem;
+      padding: 1.6rem;
+    }
+    .service-card-featured .feat-icon {
+      font-size: 2.2rem;
+    }
+    .service-card-featured .feat-name {
+      font-size: 1.15rem;
+    }
+    .service-card-featured .feat-text {
+      font-size: .85rem;
+    }
+    .service-card-featured .feat-badge {
+      display: inline-flex;
+      align-self: flex-start;
+      margin-top: .4rem;
+    }
+
+    /* --- Testes --- */
+    .tests-grid { gap: .75rem; margin-top: 2rem; }
+
+    /* --- Depoimentos --- */
+    #depoimentos { padding: 4rem 5%; }
+    .reviews-header { text-align: center; margin-bottom: 2rem; }
+    .reviews-header h2 { font-size: 2rem; }
+    .reviews-grid { grid-template-columns: 1fr; gap: 1rem; }
+
+    /* --- Localização --- */
+    #localizacao {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+      padding: 4rem 5%;
+    }
+    .location-info .btn-whatsapp { width: 100%; max-width: 320px; justify-content: center; }
+    .map-embed { height: 280px; border-radius: 18px; width: 100%; }
+
+    /* --- Footer --- */
+    footer { padding: 2.5rem 5%; }
+    .footer-top { flex-direction: column; align-items: flex-start; gap: 1.2rem; }
+    .footer-bottom { flex-direction: column; gap: .4rem; }
+
+    /* --- Floating button --- */
+    .float-wpp { bottom: 1.2rem; right: 1.2rem; width: 52px; height: 52px; }
+  }
+
+  @media (max-width: 380px) {
+    h1 { font-size: 2.2rem; }
+    .hero-buttons a { font-size: .9rem; padding: .85rem 1.4rem; }
+    .btn-whatsapp { padding: .85rem 1.4rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header id="main-header">
+  <a href="#" class="logo">
+    <img src="farmais.png" alt="Farmais Adamantina" style="height:48px;width:auto;display:block;">
+  </a>
+  <nav>
+    <a href="#servicos">Serviços</a>
+    <a href="#testes">Testes Rápidos</a>
+    <a href="#depoimentos">Depoimentos</a>
+    <a href="#localizacao">Localização</a>
+    <a href="https://wa.me/551835228800" class="nav-cta" target="_blank">Pedir pelo WhatsApp</a>
+  </nav>
+  <button class="hamburger" id="hamburger" aria-label="Abrir menu">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<!-- MOBILE MENU OVERLAY -->
+<div class="mobile-menu" id="mobile-menu">
+  <a href="#servicos" class="mob-link">Serviços</a>
+  <a href="#testes" class="mob-link">Testes Rápidos</a>
+  <a href="#depoimentos" class="mob-link">Depoimentos</a>
+  <a href="#localizacao" class="mob-link">Localização</a>
+  <a href="https://wa.me/551835228800" class="mob-cta" target="_blank">
+    Pedir pelo WhatsApp
+  </a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg-circle"></div>
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="badge-dot"></span>
+      Aberto hoje até as 23h
+    </div>
+    <h1>Sua saúde,<em>atendimento rápido.</em></h1>
+    <p class="hero-desc">Farmácia completa com manipulação, testes rápidos e atendimento até as 23h todos os dias. Peça pelo WhatsApp e receba rápido!</p>
+    <div class="hero-buttons">
+      <a href="https://wa.me/551835228800" class="btn-whatsapp" target="_blank">
+        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Pedir agora
+      </a>
+      <a href="#localizacao" class="btn-outline">📍 Onde estamos</a>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="hero-card">
+      <div class="card-icon green">🧪</div>
+      <div class="card-info">
+        <div class="card-title">Laboratório de Manipulação</div>
+        <div class="card-desc">Fórmulas personalizadas com tecnologia avançada</div>
+      </div>
+    </div>
+    <div class="hero-card">
+      <div class="card-icon gold">🕙</div>
+      <div class="card-info">
+        <div class="card-title">Atendimento até 23h</div>
+        <div class="card-desc">Todos os dias da semana, 07h às 23h</div>
+      </div>
+    </div>
+    <div class="hero-card">
+      <div class="card-icon blue">🏢</div>
+      <div class="card-info">
+        <div class="card-title">Melhor Convênio Empresa</div>
+        <div class="card-desc">Benefícios para sua empresa e funcionários</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOURS BANNER -->
+<div class="hours-banner">
+  <span>🟢 Aberto agora</span>
+  <span class="hours-sep">|</span>
+  <span><strong>Todos os dias</strong> das 07:00 às 23:00h</span>
+  <span class="hours-sep">|</span>
+  <span>📞 (18) 3522-8800</span>
+  <span class="hours-sep">|</span>
+  <a href="https://wa.me/551835228800" target="_blank" style="color:white;font-weight:700;text-decoration:underline;">Pedir pelo WhatsApp →</a>
+</div>
+
+<!-- SERVICES -->
+<section id="servicos">
+  <div class="services-header reveal">
+    <div>
+      <span class="section-label">O que oferecemos</span>
+      <h2>Tudo que você<br>precisa, aqui.</h2>
+    </div>
+    <p class="section-desc">Farmácia completa com serviços especializados, atendimento humanizado e o melhor da saúde para você e sua família. Desde fórmulas manipuladas até entrega na sua porta.</p>
+  </div>
+
+  <div class="services-grid">
+
+    <!-- Card destaque: Manipulação -->
+    <div class="service-card-featured reveal">
+      <div class="feat-icon">🧬</div>
+      <div class="feat-body">
+        <div class="feat-name">Laboratório de Manipulação de Fórmulas</div>
+        <p class="feat-text">Nosso laboratório próprio produz fórmulas 100% personalizadas, com precisão técnica e ingredientes de alta qualidade — tudo conforme a prescrição do seu médico.</p>
+      </div>
+      <div class="feat-badge">Exclusivo</div>
+    </div>
+
+    <!-- Card 1 -->
+    <div class="service-card reveal">
+      <div class="service-icon-wrap">🌙</div>
+      <div class="service-name">Atendimento até 23h</div>
+      <p class="service-text">Abertos todos os dias da semana, das 07h às 23h. Quando você precisar, a Farmais estará lá.</p>
+      <div class="service-tag">Todos os dias</div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="service-card reveal">
+      <div class="service-icon-wrap">🏢</div>
+      <div class="service-name">Convênio Empresa</div>
+      <p class="service-text">O melhor convênio empresarial da região. Benefícios reais para colaboradores, com gestão simplificada para a empresa.</p>
+      <div class="service-tag">Para empresas</div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="service-card reveal">
+      <div class="service-icon-wrap">⚡</div>
+      <div class="service-name">Testes Rápidos</div>
+      <p class="service-text">Covid-19, Influenza, Colesterol, Vitamina D e muito mais. Resultado na hora, sem filas e sem burocracia.</p>
+      <div class="service-tag">Resultado em minutos</div>
+    </div>
+
+    <!-- Card 4 -->
+    <div class="service-card reveal">
+      <div class="service-icon-wrap">📦</div>
+      <div class="service-name">Entrega Rápida</div>
+      <p class="service-text">Peça pelo WhatsApp e receba em casa com agilidade e segurança. Sua conveniência é nossa prioridade.</p>
+      <div class="service-tag">Via WhatsApp</div>
+    </div>
+
+    <!-- Card 5 -->
+    <div class="service-card reveal">
+      <div class="service-icon-wrap">💬</div>
+      <div class="service-name">Orientação Farmacêutica</div>
+      <p class="service-text">Nossa equipe treinada oferece atendimento humanizado e orientação completa para o uso correto dos seus medicamentos.</p>
+      <div class="service-tag">Atendimento humano</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- TESTES RAPIDOS -->
+<section id="testes">
+  <div class="reveal" style="max-width:700px">
+    <span class="section-label">Testes Rápidos Disponíveis</span>
+    <h2>Resultados em<br>minutos.</h2>
+    <p class="section-desc">Realizamos testes rápidos com precisão e agilidade. Sem fila, sem burocracia.</p>
+  </div>
+  <div class="tests-grid reveal">
+    <div class="test-pill"><span>🦠</span> Covid-19</div>
+    <div class="test-pill"><span>🤧</span> Influenza</div>
+    <div class="test-pill"><span>❤️</span> Colesterol</div>
+    <div class="test-pill"><span>☀️</span> Vitamina D</div>
+    <div class="test-pill"><span>🩸</span> Glicemia</div>
+    <div class="test-pill"><span>🫀</span> Pressão Arterial</div>
+    <div class="test-pill"><span>➕</span> E muito mais!</div>
+  </div>
+  <div style="margin-top:2.5rem" class="reveal">
+    <a href="https://wa.me/551835228800?text=Olá! Gostaria de informações sobre os testes rápidos." class="btn-whatsapp" target="_blank">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Agendar teste pelo WhatsApp
+    </a>
+  </div>
+</section>
+
+<!-- DEPOIMENTOS -->
+<section id="depoimentos">
+  <div class="reviews-header reveal">
+    <span class="section-label">Depoimentos</span>
+    <h2>O que nossos<br>clientes dizem</h2>
+    <p class="section-desc">A confiança de quem já comprou e aprovou. Atendimento Farmais faz a diferença.</p>
+  </div>
+  <div class="reviews-grid">
+    <div class="review-card reveal">
+      <div class="stars">★★★★★</div>
+      <p class="review-text">Ótimo atendimento.</p>
+      <div class="reviewer">
+        <div class="reviewer-avatar">AA</div>
+        <div>
+          <div class="reviewer-name">Adriano Alan</div>
+          <div class="reviewer-date">Outubro 2024</div>
+        </div>
+      </div>
+    </div>
+    <div class="review-card reveal">
+      <div class="stars">★★★★★</div>
+      <p class="review-text">Bom atendimento e rapidez.</p>
+      <div class="reviewer">
+        <div class="reviewer-avatar">CJ</div>
+        <div>
+          <div class="reviewer-name">Canal do J.A.</div>
+          <div class="reviewer-date">Janeiro 2024</div>
+        </div>
+      </div>
+    </div>
+    <div class="review-card reveal">
+      <div class="stars">★★★★★</div>
+      <p class="review-text">Ótimo atendimento, funcionários educados e prestativos.</p>
+      <div class="reviewer">
+        <div class="reviewer-avatar">AR</div>
+        <div>
+          <div class="reviewer-name">Anderson Roberto</div>
+          <div class="reviewer-date">Setembro 2023</div>
+        </div>
+      </div>
+    </div>
+    <div class="review-card reveal">
+      <div class="stars">★★★★★</div>
+      <p class="review-text">Muito bom, super recomendo!</p>
+      <div class="reviewer">
+        <div class="reviewer-avatar">SR</div>
+        <div>
+          <div class="reviewer-name">Silvio Ronaldo Rombi</div>
+          <div class="reviewer-date">Julho 2022</div>
+        </div>
+      </div>
+    </div>
+    <div class="review-card reveal">
+      <div class="stars">★★★★★</div>
+      <p class="review-text">Excelente atendimento.</p>
+      <div class="reviewer">
+        <div class="reviewer-avatar">PP</div>
+        <div>
+          <div class="reviewer-name">Perotti e Perotti Imóveis</div>
+          <div class="reviewer-date">Dezembro 2018</div>
+        </div>
+      </div>
+    </div>
+    <div class="review-card reveal">
+      <div class="stars">★★★★★</div>
+      <p class="review-text">Sempre compro lá, atendimento nota 10!</p>
+      <div class="reviewer">
+        <div class="reviewer-avatar">BD</div>
+        <div>
+          <div class="reviewer-name">Bruna Dias</div>
+          <div class="reviewer-date">Setembro 2018</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LOCALIZACAO -->
+<section id="localizacao">
+  <div class="location-info reveal">
+    <span class="section-label">Onde estamos</span>
+    <h2>Sempre pertinho<br>de você.</h2>
+    <p class="section-desc" style="margin-bottom:2rem">Venha nos visitar ou faça seu pedido pelo WhatsApp. Estamos prontos para atender!</p>
+
+    <div class="location-detail">
+      <div class="location-detail-icon">📍</div>
+      <div class="location-detail-text">
+        <strong>Endereço</strong>
+        <span>Av. Rio Branco, 660 – Centro<br>Adamantina – SP, 17800-000</span>
+      </div>
+    </div>
+    <div class="location-detail">
+      <div class="location-detail-icon">🕐</div>
+      <div class="location-detail-text">
+        <strong>Horário de Atendimento</strong>
+        <span>Todos os dias das 07:00 às 23:00h</span>
+      </div>
+    </div>
+    <div class="location-detail">
+      <div class="location-detail-icon">📞</div>
+      <div class="location-detail-text">
+        <strong>Telefone</strong>
+        <span>(18) 3522-8800</span>
+      </div>
+    </div>
+
+    <a href="https://wa.me/551835228800?text=Olá! Gostaria de fazer um pedido." class="btn-whatsapp" target="_blank" style="margin-top:.5rem">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Pedir pelo WhatsApp agora
+    </a>
+  </div>
+
+  <div class="map-embed reveal">
+    <iframe
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3698.5!2d-51.0752!3d-21.6862!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjHCsDQxJzEwLjMiUyA1McKwMDQnMzAuNyJX!5e0!3m2!1spt-BR!2sbr!4v1234567890!5m2!1spt-BR!2sbr&q=Avenida+Rio+Branco+660+Adamantina+SP"
+      allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+      title="Farmais Adamantina - Localização">
+    </iframe>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div style="margin-bottom:.5rem">
+        <a href="#" class="logo">
+          <img src="farmais.png" alt="Farmais Adamantina" style="height:48px;width:auto;display:block;">
+        </a>
+      </div>
+      <p style="font-size:.82rem;color:rgba(255,255,255,.35)">Cuidando da sua saúde com carinho e responsabilidade.</p>
+    </div>
+    <div class="footer-social">
+      <a href="#" title="Facebook">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="white"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+      </a>
+      <a href="#" title="Instagram">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="white"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z" fill="#0f1f15"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke="white" stroke-width="2"/></svg>
+      </a>
+      <a href="https://wa.me/551835228800" title="WhatsApp" target="_blank">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <div class="footer-legal">
+    <p>CNPJ 25.290.421/0001-25 – AVENIDA RIO BRANCO, 660, Nº 660 – CENTRO – CEP: 17.800-009, ADAMANTINA – SP | Rosileyne Robler Stechi CRF/SP: 32001 | Autorização de funcionamento – 5.17705-0.</p>
+    <p style="margin-top:.6rem">As informações contidas neste site não devem ser usadas para automedicação e não substituem as orientações do profissional médico. Ao persistirem os sintomas, um médico deverá ser consultado. Os preços e promoções são válidos apenas para compras pelo WhatsApp. Consulte: <a href="https://www.anvisa.gov.br" target="_blank" style="color:rgba(255,255,255,.4)">www.anvisa.gov.br</a>.</p>
+  </div>
+
+  <div class="footer-bottom">
+    <span>Copyright © R O ADAMANTINA LTDA – Todos os direitos reservados.</span>
+    <span>
+      <a href="#" style="color:inherit;text-decoration:underline">Política de Privacidade</a>
+      &nbsp;·&nbsp;
+      <a href="#" style="color:inherit;text-decoration:underline">Termos de Uso</a>
+    </span>
+  </div>
+</footer>
+
+<!-- FLOATING WHATSAPP -->
+<a href="https://wa.me/551835228800?text=Olá! Gostaria de fazer um pedido." class="float-wpp" target="_blank" title="Pedir pelo WhatsApp">
+  <div class="float-wpp-tooltip">Pedir pelo WhatsApp</div>
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<script>
+  // Header scroll
+  const header = document.getElementById('main-header');
+  window.addEventListener('scroll', () => {
+    header.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+
+  // Hamburger menu
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobile-menu');
+
+  function toggleMenu() {
+    const isOpen = mobileMenu.classList.toggle('open');
+    hamburger.classList.toggle('open', isOpen);
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+  }
+
+  hamburger.addEventListener('click', toggleMenu);
+
+  // Close menu when clicking a link
+  mobileMenu.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      mobileMenu.classList.remove('open');
+      hamburger.classList.remove('open');
+      document.body.style.overflow = '';
+    });
+  });
+</script>
+</body>
+</html>
