@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Farmais Adamantina – Farmácia & Manipulação</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
@@ -65,11 +66,11 @@
 
   .nav-cta {
     background: var(--red) !important;
-    text-decoration: none;
     color: white !important;
     padding: .6rem 1.4rem;
     border-radius: 100px;
     transition: background .2s, transform .2s !important;
+    
   }
   .nav-cta:hover { background: #b82222 !important; transform: translateY(-1px); }
 
@@ -197,6 +198,10 @@
     color: var(--green);
     display: block;
   }
+  a[href^="tel"] {
+  color: inherit !important;
+  text-decoration: none !important;
+}
 
   .hero-desc {
     font-size: 1.05rem;
@@ -885,7 +890,7 @@
   <span class="hours-sep">|</span>
   <span>📞 (18) 3522-8800</span>
   <span class="hours-sep">|</span>
-  <a href="https://wa.me/551835228800" target="_blank" style="color:white;font-weight:700;text-decoration:underline;">Pedir pelo WhatsApp →</a>
+  <a href="https://wa.me/551835228800" target="_blank" style="color:white;font-weight:500;text-decoration:underline;text-decoration: none !important; font-size: 0.5;">Pedir pelo WhatsApp →</a>
 </div>
 
 <!-- SERVICES -->
